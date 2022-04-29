@@ -1,0 +1,12 @@
+  spring: 
+     jpa: 
+        show-sql: true
+        hibernate: 
+           ddl-auto: none
+     datasource: 
+        url: jdbc:mysql://localhost:3306/JDBCDemo
+        username: root
+        password: 
+       # driver-class-name: com.sql.jdbc.Driver
+
+        

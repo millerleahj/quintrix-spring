@@ -5,15 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.quintrix.jfs.quintrixspring.models.Car;
+import com.quintrix.jfs.quintrixspring.repository.CarRepository;
 
+@Service
 public class CarService {
-  // @Autowired
+
+  @Autowired
+  CarRepository carRepository;
+
 
   List<Car> carsList = new ArrayList<>(Arrays.asList(
 
@@ -22,33 +27,26 @@ public class CarService {
 
   ));
 
-  // @RequestMapping(method = RequestMethod.GET, value = "/cars")
-  // List<Car> getCars() {
-  // return carsList;
-  // }
 
-  @RequestMapping(method = RequestMethod.GET, value = "/cars")
-  List<Car> getCars(@RequestParam(name = "make", required = false) String make) {
+
+  public List<Car> getCars(@RequestParam(name = "make", required = false) String make) {
     if (make != null) {
       return carsList.stream().filter(c -> c.getMake().equals(make)).collect(Collectors.toList());
     } else {
       return carsList;
     }
 
-    /*
-     * adding the requestparam where it is needs the required = false statement so that an error
-     * doesn't occur if not present
-     */
-
   }
 
-  @RequestMapping(method = RequestMethod.GET, value = "/cars/{id}")
-  Car getCarDetails(@PathVariable Long id) {
 
-    Optional<Car> car =
-        carsList.stream().filter(c -> c.getId().longValue() == id.longValue()).findAny();
+  public Car getCarDetails(@PathVariable Long id) {
 
-    // return carsList.stream().anyMatch(c -> c.getId().longValue() == id.longValue()).orElse(null);
+    // Optional<Car> car =
+    // carsList.stream().filter(c -> c.getId().longValue() == id.longValue()).findAny();
+
+
+    // CarRepository carRepository = new CarRepository();
+    Optional<Car> car = carRepository.findById(1L);
 
     if (car.isPresent()) {
       return car.get();
@@ -56,26 +54,17 @@ public class CarService {
       return new Car();
     }
 
-    /*
-     * "/cars/{id}" selects cars with an id PathVariable is argument that uses id in code; code
-     * checks to see if id exists and will print the data if it does else returns null
-     * 
-     * Optional: a container object used to contain not-null objects; has various utility methods to
-     * facilitate code to handle values as 'available' or 'not available' instead of checking null
-     * values
-     */
   }
 
-  @RequestMapping(method = RequestMethod.POST, value = "/cars")
-  Car addCar(@RequestBody Car car) {
 
-    carsList.add(car);
+  public Car addCar(@RequestBody Car car) {
 
-    return car;
-
+    // carsList.add(car);
     /*
-     * creating a post method to create
+     * Post: body: (raw, JSON) Input data -- saves car to table
      */
+    Car createCar = carRepository.save(car);
+    return createCar;
 
   }
 
