@@ -1,14 +1,18 @@
 package com.quintrix.jfs.quintrixspring.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quintrix.jfs.quintrixspring.models.Car;
+import com.quintrix.jfs.quintrixspring.models.GetCarResponse;
+import com.quintrix.jfs.quintrixspring.models.agent.Agents;
+import com.quintrix.jfs.quintrixspring.restservice.AgentService;
 import com.quintrix.jfs.quintrixspring.service.CarService;
 
 
@@ -20,9 +24,17 @@ public class CarController {
   private CarService carService;
   // List<Car> carsList = new ArrayList<>();
 
+  @Autowired
+  AgentService agentService;
+
   @RequestMapping(method = RequestMethod.GET, value = "/cars")
-  public List<Car> getCarService(@RequestParam(name = "make", required = false) String make) {
-    return carService.getCars(make);
+  // public List<Car> getCarService(@RequestParam(name = "make", required = false) String make) {
+  public GetCarResponse getCarService(@RequestParam(name = "make", required = false) String make) {
+    // GetCarRespose getCarRespose = new GetCarRespose();
+    // return carService.getCars(make);
+    // getCarRespose = carService.getCar(make);
+    // return getCarRespose;
+    return carService.getCar(make);
   }
 
   @RequestMapping(method = RequestMethod.GET, value = "/cars/{id}")
@@ -30,9 +42,33 @@ public class CarController {
     return carService.getCarDetails(id);
   }
 
+  // @RequestMapping(method = RequestMethod.GET, value = "/agent/{id}")
+  // public Agents getAgentbyId(@PathVariable int id) {
+  // return //.getAgent(id);
+  // }
+
   @RequestMapping(method = RequestMethod.POST, value = "/cars")
-  public Car addCarService(@RequestBody Car car) {
+  // public Car addCarService(@RequestBody Car car) {
+  public Car addCarService(String carStr) throws JsonMappingException, JsonProcessingException {
+
+    System.out.println(carStr);
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    Car car = objectMapper.readValue(carStr, Car.class);
+
     return carService.addCar(car);
+
+    /*
+     * when post 'bad request' prints what was posted by client so that you can see where the error
+     * was
+     */
+
+  }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/agent/{id}")
+  public Agents getAgent(@PathVariable int id) {
+    return agentService.getAgent(id);
   }
 
   private void movedToService() {

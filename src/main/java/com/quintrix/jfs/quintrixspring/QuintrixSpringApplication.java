@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.quintrix.jfs.quintrixspring.controller.CarController;
 import com.quintrix.jfs.quintrixspring.entity.Employee;
 import com.quintrix.jfs.quintrixspring.repository.EmployeeRepository;
 
@@ -13,6 +14,9 @@ public class QuintrixSpringApplication implements CommandLineRunner {
 
   @Autowired
   EmployeeRepository employeeRepository;
+
+  @Autowired
+  CarController carController;
 
   public static void main(String[] args) {
     SpringApplication.run(QuintrixSpringApplication.class, args);
@@ -27,6 +31,9 @@ public class QuintrixSpringApplication implements CommandLineRunner {
     // if (employee.isPresent()) {
     System.out.println(countOfRecords);
     // }
+
   }
+
+  // test id = 3473
 
 }

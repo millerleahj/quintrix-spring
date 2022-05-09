@@ -1,4 +1,4 @@
-  spring: 
+   spring: 
      jpa: 
         show-sql: true
         hibernate: 
@@ -9,4 +9,7 @@
         password: 
        # driver-class-name: com.sql.jdbc.Driver
 
-        
+
+   agentService:
+      getUrl: https://gorest.co.in/public/v2/users
+      #allows for a post url 
