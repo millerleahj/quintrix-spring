@@ -8,3 +8,7 @@ import com.quintrix.jfs.quintrixspring.entity.Employee;
 public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
 
 }
+
+/*
+ * Auto generates common functions
+ */

@@ -1,13 +1,8 @@
 package com.quintrix.jfs.quintrixspring.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+public class ClientCar {
 
-@Entity
-public class Car {
 
-  @Id
-  private Long id;
 
   private String make;
 
@@ -15,23 +10,17 @@ public class Car {
 
   private Integer year;
 
-  public Car() {}
+  public ClientCar() {}
 
-  public Car(Long id, String make, String model, Integer year) {
+  public ClientCar(String make, String model, Integer year) {
     super();
-    this.id = id;
+
     this.make = make;
     this.model = model;
     this.year = year;
   }
 
-  public Long getId() {
-    return id;
-  }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getMake() {
     return make;
@@ -59,3 +48,7 @@ public class Car {
 
 
 }
+
+/*
+ * Copied from Car; Removed anything the client does not need to see (id)
+ */
