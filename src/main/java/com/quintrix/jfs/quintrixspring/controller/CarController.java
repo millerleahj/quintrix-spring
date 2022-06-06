@@ -1,5 +1,8 @@
 package com.quintrix.jfs.quintrixspring.controller;
 
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,8 @@ import com.quintrix.jfs.quintrixspring.service.CarService;
 // @RequestMapping("/cars")
 public class CarController {
 
+  private static final Logger logger = LoggerFactory.getLogger(CarController.class);
+
   @Autowired
   private CarService carService;
   // List<Car> carsList = new ArrayList<>();
@@ -39,13 +44,13 @@ public class CarController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/cars/{id}")
   public Car getCarDetailsService(@PathVariable Long id) {
+
+    logger.debug("Request: Called getCarDetails Controller {}", id);
+
     return carService.getCarDetails(id);
   }
 
-  // @RequestMapping(method = RequestMethod.GET, value = "/agent/{id}")
-  // public Agents getAgentbyId(@PathVariable int id) {
-  // return //.getAgent(id);
-  // }
+
 
   @RequestMapping(method = RequestMethod.POST, value = "/cars")
   // public Car addCarService(@RequestBody Car car) {
@@ -66,10 +71,37 @@ public class CarController {
 
   }
 
+  @RequestMapping(method = RequestMethod.DELETE, value = "/cars/{id}")
+  Car deleteCar(@PathVariable Long id) {
+
+    logger.debug("Request: Called deleteCar Controller {}");
+
+    if (carService.deleteCarById(id)) {
+      return new Car();
+    }
+    return null;
+
+  }
+
+  public CarService getCarService() {
+    return carService;
+  }
+
+  public void setCarService(CarService carService) {
+    this.carService = carService;
+  }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/agents")
+  public List<Agents> getAgentList() {
+    return agentService.getAgentList();
+  }
+
   @RequestMapping(method = RequestMethod.GET, value = "/agent/{id}")
   public Agents getAgent(@PathVariable int id) {
     return agentService.getAgent(id);
   }
+
+
 
   private void movedToService() {
     // @Autowired
@@ -127,6 +159,11 @@ public class CarController {
      * 
      * 
      * }
+     * 
+     * @ExceptionHandler(Exception.class) public void handleExceptions() {} Created Exception
+     * handler so that it can be applied to all controllers
+     * 
+     * 
      */
 
   }

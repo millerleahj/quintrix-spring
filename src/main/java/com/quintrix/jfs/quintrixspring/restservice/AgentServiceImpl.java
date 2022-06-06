@@ -44,20 +44,74 @@ public class AgentServiceImpl implements AgentService {
 
   }
 
+
+  @Override
+  public List<Agents> availableAgents() {
+    List<Agents> activeAgents = null;
+    ResponseEntity<List<Agents>> agentsList = restTemplate.exchange(agentServiceGetUrl,
+        HttpMethod.GET, null, new ParameterizedTypeReference<List<Agents>>() {});
+
+    List<Agents> agents = agentsList.getBody();
+
+    if (agentsList.getStatusCode() == HttpStatus.OK) {
+
+      // Agents active = agents.stream().filter(x -> x.getStatus().equals("active")).findAny();
+      // activeAgents.add(active);
+    }
+    return null;
+  }
+
   @Override
   public Agents getAgent(int id) {
 
-    // List<Agents> agents = asList(restTemplate.getForObject(agentServiceGetUrl, Agents.class));
+    ResponseEntity<List<Agents>> agentsList = restTemplate.exchange(agentServiceGetUrl,
+        HttpMethod.GET, null, new ParameterizedTypeReference<List<Agents>>() {});
 
+    // Agents getAgents = restTemplate.getForObject(agentServiceGetUrl, Agents.class, null);
+    // ResponseEntity<Agents> getAgents = restTemplate.getForEntity(agentServiceGetUrl,
+    // Agents.class);
+    // return getAgents.getBody();
+
+    // ResponseEntity<Agents> getAgents = restTemplate
+    // .exchange("https://gorest.co.in/public/v2/users/4", HttpMethod.GET, null, Agents.class);
+
+    ResponseEntity<Agents> getAgents =
+        restTemplate.exchange(agentServiceGetUrl + "/" + id, HttpMethod.GET, null, Agents.class);
+
+    return getAgents.getBody();
+
+
+
+    // if (agentsList != null) {
+    // Optional<Agents> agent;
+    // // agent = agentRepository.findById(4044);
+    // return agent;
+    // }
+
+    // return null;
+
+    // ResponseEntity<Optional<Agents>> agentsById = restTemplate.exchange(agentServiceGetUrl,
+    // HttpMethod.GET, null, new ParameterizedTypeReference<Optional<Agents>>() {});
+
+    // exchange.string, http method, http entity,
+
+    // agent = agent.getBody();
+
+    // Work around
+    // List<Agents> agentsList = getAgentList();
+    // Optional<Agents> agent = agentsList.stream().filter(x -> x.getId().equals(id)).findAny();
+
+    // return agent.get();
+
+    // Work in progress: --no longer needed
+
+    // List<Agents> agents = asList(restTemplate.getForObject(agentServiceGetUrl, Agents.class));
     // return agentsResponseEntity.getBody();
 
+    // List<Agents> agents = agentsListResponseEntity.getBody();
 
-    ResponseEntity<List<Agents>> agentsListResponseEntity =
-        restTemplate.exchange(agentServiceGetUrl, HttpMethod.GET, null,
-            new ParameterizedTypeReference<List<Agents>>() {});
-    List<Agents> agents = agentsListResponseEntity.getBody();
 
-    return agents.get(id);
+    // return agents.get(id);
     // 0-19
 
   }

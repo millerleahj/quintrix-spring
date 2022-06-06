@@ -1,4 +1,4 @@
-   spring: 
+   Spring: 
      jpa: 
         show-sql: true
         hibernate: 
@@ -8,8 +8,23 @@
         username: root
         password: 
        # driver-class-name: com.sql.jdbc.Driver
-
+     mvc: 
+        pathmatch: 
+           matching-strategy: ant_path_matcher
 
    agentService:
       getUrl: https://gorest.co.in/public/v2/users
-      #allows for a post url 
+      #allows room for a post url 
+      
+   logging: 
+      level: 
+         org.springframework: ERROR
+         com.quintrix: DEBUG
+      pattern: 
+         console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+         #no longer write to console; write to read using kafka-like service
+         file: "%d %p %c{1.} [%t] %m%n"
+      #file: /tmp/app.log
+      
+   timeout:
+      duration: 3000

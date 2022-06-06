@@ -9,4 +9,6 @@ public interface AgentService {
 
   Agents getAgent(int id);
 
+  List<Agents> availableAgents();
+
 }

@@ -1,12 +1,10 @@
 package com.quintrix.jfs.quintrixspring;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.quintrix.jfs.quintrixspring.controller.CarController;
-import com.quintrix.jfs.quintrixspring.entity.Employee;
 import com.quintrix.jfs.quintrixspring.repository.EmployeeRepository;
 
 @SpringBootApplication
@@ -25,7 +23,6 @@ public class QuintrixSpringApplication implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     // TODO Auto-generated method stub
-    Optional<Employee> employee = employeeRepository.findById(1);
 
     long countOfRecords = employeeRepository.count();
     // if (employee.isPresent()) {
@@ -34,6 +31,6 @@ public class QuintrixSpringApplication implements CommandLineRunner {
 
   }
 
-  // test id = 3473
+
 
 }

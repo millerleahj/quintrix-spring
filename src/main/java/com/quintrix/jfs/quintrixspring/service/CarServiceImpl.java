@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.quintrix.jfs.quintrixspring.exception.CarNotFoundException;
 import com.quintrix.jfs.quintrixspring.models.Car;
 import com.quintrix.jfs.quintrixspring.models.ClientCar;
 import com.quintrix.jfs.quintrixspring.models.GetCarResponse;
@@ -16,6 +19,8 @@ import com.quintrix.jfs.quintrixspring.restservice.AgentService;
 
 @Service
 public class CarServiceImpl implements CarService {
+
+  private static final Logger logger = LoggerFactory.getLogger(CarServiceImpl.class);
 
   @Autowired
   CarRepository carRepository;
@@ -80,7 +85,12 @@ public class CarServiceImpl implements CarService {
     if (car.isPresent()) {
       return car.get();
     } else {
-      return new Car();
+
+      logger.error("How can this happen? Why is the customer calling with id = {}", id);
+
+      // throw new IllegalStateException("Invalid ID");
+      throw new CarNotFoundException("Invalid ID", "Please use a different ID");
+      // return new Car();
     }
 
   }
@@ -96,6 +106,14 @@ public class CarServiceImpl implements CarService {
     Car createCar = carRepository.save(car);
     return createCar;
 
+  }
+
+
+
+  @Override
+  public boolean deleteCarById(Long id) {
+    // TODO Auto-generated method stub
+    return false;
   }
 
 
